@@ -15,3 +15,19 @@ buildNumber.properties
 .project
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
+
+# 设置git上传时需要忽略的文件
+
+### 忽略文件
+**/mvnw
+**/mvnw.cmd
+**/.mvn
+
+**/target/
+
+.idea
+
+**/.gitignore
+
+renren-generator/
+renren-fast/

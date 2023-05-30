@@ -1,0 +1,51 @@
+server:
+  port: 88
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: product_route
+          uri: lb://gulimall-product
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - RewritePath= /api/(?<segment>/?.*), /$\{segment}
+
+        - id: member_route
+          uri: lb://gulimall-member
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/(?<segment>/?.*), /$\{segment}
+
+        - id: ware_route
+          uri: lb://gulimall-ware
+          predicates:
+            - Path=/api/ware/**
+          filters:
+            - RewritePath=/api/(?<segment>/?.*), /$\{segment}
+
+        - id: third_party_route
+          uri: lb://gulimall-third-party
+          predicates:
+            - Path=/api/third-party/**
+          filters:
+            - RewritePath=/api/third-party/(?<segment>/?.*), /$\{segment}
+
+        - id: admin_route
+          uri: lb://renren-fast
+          predicates:
+            - Path=/api/**
+          filters:
+            - RewritePath=/api/(?<segment>/?.*), /renren-fast/$\{segment}
+
+    nacos:
+      discovery:
+        server-addr: 192.168.110.128:8848
+      config:
+        name: gulimall-gateway
+
+# 使用路径重写 /red(?<segment>/?.*), $\{segment}
+# http://localhost:88/api/captcha.jpg? ===> http://localhost:8888/api/captcha.jpg
+# ==> http://localhost:8888/renren-fast/captcha.jpg
+
